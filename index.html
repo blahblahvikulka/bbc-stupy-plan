@@ -217,34 +217,7 @@
   }
   .chip-add-btn:hover { background: var(--pink); color: #fff; }
 
-  /* ── LESSON TABLE ── */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 580px; }
-  thead th {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    padding: 8px 8px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  td { padding: 2px 2px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .cell-in {
-    width: 100%;
-    background: transparent;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--text);
-    padding: 7px 8px;
-    border-radius: 6px;
-    transition: background 0.12s;
-  }
-  .cell-in::placeholder { color: #3a3a3a; }
-  .cell-in:focus { outline: none; background: var(--dark3); }
+
 
   /* ── ADD ROW BUTTON ── */
   .add-btn {
@@ -527,54 +500,6 @@
   </div>
 </div>
 
-<!-- LESSON PLAN -->
-<div class="card">
-  <div class="section-head">
-    <span class="badge badge-lp">Lesson plan</span>
-    <span class="section-title">Session log</span>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th style="width:32px">#</th>
-          <th style="width:88px">Date</th>
-          <th style="width:130px">Topic / focus</th>
-          <th>Activities & materials</th>
-          <th style="width:110px">Homework</th>
-          <th style="width:100px">Progress note</th>
-        </tr>
-      </thead>
-      <tbody id="lesson-body">
-        <tr>
-          <td style="text-align:center;font-size:12px;color:var(--text-muted)">1</td>
-          <td><input class="cell-in" type="text" placeholder="dd/mm/yy" /></td>
-          <td><input class="cell-in" type="text" placeholder="e.g. small talk" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-        </tr>
-        <tr>
-          <td style="text-align:center;font-size:12px;color:var(--text-muted)">2</td>
-          <td><input class="cell-in" type="text" placeholder="dd/mm/yy" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-        </tr>
-        <tr>
-          <td style="text-align:center;font-size:12px;color:var(--text-muted)">3</td>
-          <td><input class="cell-in" type="text" placeholder="dd/mm/yy" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-          <td><input class="cell-in" type="text" placeholder="" /></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <button class="add-btn" onclick="addLessonRow()">+ add lesson</button>
-</div>
 
 <!-- FOOTER -->
 <div class="footer">
@@ -603,7 +528,6 @@
 </div>
 
 <script>
-  let lessonCount = 3;
   let sitCount = 3;
   let selectedLevel = '';
 
@@ -638,30 +562,14 @@
 
   function removeChip(btn) { btn.closest('.chip').remove(); }
 
-  function addLessonRow() {
-    lessonCount++;
-    const tbody = document.getElementById('lesson-body');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td style="text-align:center;font-size:12px;color:var(--text-muted)">${lessonCount}</td>
-      <td><input class="cell-in" type="text" placeholder="dd/mm/yy" /></td>
-      <td><input class="cell-in" type="text" placeholder="" /></td>
-      <td><input class="cell-in" type="text" placeholder="" /></td>
-      <td><input class="cell-in" type="text" placeholder="" /></td>
-      <td><input class="cell-in" type="text" placeholder="" /></td>`;
-    tbody.appendChild(tr);
-  }
-
   function collectData() {
     const student = document.getElementById('meta-student').value || 'the student';
-    const teacher = document.getElementById('meta-teacher').value || '';
     const interests = [...document.querySelectorAll('#chips-wrap .chip')]
       .map(c => c.childNodes[0].textContent.trim()).join(', ');
     const situations = [...document.querySelectorAll('#sit-list input')]
       .map(i => i.value).filter(Boolean).join('; ');
     return {
       student,
-      teacher,
       level: selectedLevel,
       weaknesses: document.getElementById('a-weaknesses').value,
       challenges: document.getElementById('a-challenges').value,
@@ -689,7 +597,6 @@
 
 Student data:
 - Name: ${d.student}
-- Teacher: ${d.teacher || 'not specified'}
 - English level: ${d.level || 'not specified'}
 - Weaknesses: ${d.weaknesses || 'not specified'}
 - Challenges: ${d.challenges || 'not specified'}
